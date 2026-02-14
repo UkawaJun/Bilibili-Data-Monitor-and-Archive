@@ -2,6 +2,17 @@
 # Bilibili Automated Archival System 
 ### B站自动化视频归档与加密存储系统
 
+## 0. 📅 Project Timeline
+
+**EN:** This system has been iteratively developed over a long period, evolving from a simple downloader to a secure, automated pipeline.
+**CN:** 本项目经历过长期的迭代开发，从最初的基础下载工具演进为如今具备安全加密与自动化能力的流水线系统。
+
+*   **Ver 1.0 (2026.01.26 - 2026.02.15)**: 
+    *   Basic Selenium scraping and MP4 downloading logic.
+    *   实现了基础的 Selenium 爬虫与 MP4 下载逻辑。
+    *   In this time， I have already downloaded 1500+ videos(300GB+ for 3 days) for myself, It proves this program is OKay
+    *   这个时候我已经下载了1500+的视频量(300GB+ for 3 days),这能够证明程序的可行性
+
 ## 1. Project Overview / 项目简介
 **EN:** An automated Python pipeline for video data preservation, covering dynamic scraping, high-definition archiving, and AES-encrypted storage（to 7z zip）.
 
