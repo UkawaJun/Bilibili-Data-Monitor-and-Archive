@@ -12,17 +12,17 @@ import string
 import shutil
 import pyzipper  # 必须安装: pip install pyzipper
 
-# ================= 配置区域 =================
-# 1. FFmpeg 路径
+
+# FFmpeg 路径
 FFMPEG_PATH = r'C:\ffmpeg\bin' 
 
-# 2. 初始目标链接 (会被下方的主程序循环覆盖)
+# 初始目标链接 (会被下方的主程序循环覆盖)
 TARGET_URL = "https://www.bilibili.com/video/BV1DLznBgERM/"
 
-# 3. 根目录
+# 根目录
 BASE_DIR = "File2"
 
-# 4. 伪装头
+#伪装头
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Referer": "https://www.bilibili.com"
@@ -213,7 +213,7 @@ def process_download():
         if not os.path.exists(video_dir):
             os.makedirs(video_dir)
 
-        # 1. API 获取信息
+        # 1. API 
         bv_match = re.search(r'(BV\w+)', origin_url)
         bvid = bv_match.group(1) if bv_match else None
         if bvid:
@@ -223,7 +223,7 @@ def process_download():
             if related_videos:
                 save_related_excel(os.path.join(video_dir, "related_videos.xlsx"), related_videos)
 
-        # 2. 准备下载
+        # 2. 下载
         final_file_path = os.path.join(video_dir, f"{real_index}.mp4")
         ydl_opts = {
             'ffmpeg_location': FFMPEG_PATH,
@@ -240,21 +240,19 @@ def process_download():
             'ignoreerrors': True, # 遇到小错误继续
         }
 
-        # === 阶段一：下载 ===
+        #阶段一：下载
         download_success = False
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl_worker:
                 meta = ydl_worker.extract_info(origin_url, download=True)
                 
-                # 更新元数据
                 if meta:
                     video_title = meta.get('title', video_title)
                     duration_str = format_seconds(meta.get('duration', 0))
                     uploader = meta.get('uploader', '未知作者')
                     upload_date_str = format_date_str(meta.get('upload_date'))
                     description = meta.get('description', '无简介')
-                    
-                    # 写入简介
+
                     desc_path = os.path.join(video_dir, "简介.txt")
                     with open(desc_path, "w", encoding="utf-8") as f:
                         f.write(description if description else "无简介")
@@ -265,7 +263,7 @@ def process_download():
             print(f"   ❌ 下载阶段出错: {e}")
             # 如果下载失败，就不进行压缩了，直接记 Excel Error
 
-        # === 阶段二：压缩打包 (只有下载成功才进行) ===
+        # 阶段二：压缩打包
         if download_success:
             # 获取大小
             if os.path.exists(final_file_path):
@@ -298,7 +296,7 @@ def process_download():
                 print(f"   ⚠️ 打包失败 (文件保留): {e}")
                 zip_password = "打包出错-文件未加密"
 
-        # === 阶段三：写入 Excel ===
+        # 阶段三：写入 Excel
         # 只要下载成功了，哪怕打包失败，也要把信息写进去，而不是写 Error
         if download_success:
             row_data = [
@@ -319,19 +317,19 @@ def process_download():
 
 
 if __name__ == '__main__':
-    # 你的文件里应该有 BID.xlsx，且第1列是链接
+
     _data = _ReadXlsl("BID.xlsx")[1:]
     _data.reverse()
     
-    # 批次控制 0 -1625
+    # 0 -1625
     # 0:50 50 100 
-    _data = _data[1200:1300] # 这里我改回了0:10方便你测试，你需要改回 200:300
+    _data = _data[1200:1300] 
     print(f"长度{len(_data)}")
     input("按回车开始...")
     
     i = 1
     for _burl in _data:
-        # 兼容处理：确保从xlsx读取的链接有效
+
         if not _burl or not _burl[0]: continue
         
         TARGET_URL = _burl[1]
@@ -342,4 +340,5 @@ if __name__ == '__main__':
         
         time.sleep(6)
         print("\a")
+
         i += 1
