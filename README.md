@@ -2,7 +2,7 @@
 # Bilibili Automated Archival System 
 ### B站自动化视频归档与加密存储系统
 
-## 0. 📅 Project Timeline
+## 0. 📅📅📅 Project Timeline 📅📅📅
 
 **EN:** This system has been iteratively developed over a long period, evolving from a simple downloader to a secure, automated pipeline.
 **CN:** 本项目经历过长期的迭代开发，从最初的基础下载工具演进为如今具备安全加密与自动化能力的流水线系统。
